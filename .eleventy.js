@@ -26,6 +26,11 @@ module.exports = function(eleventyConfig) {
     return Math.ceil(numberOfWords / wordsPerMinute);
   });
 
+  // Add a filter to prepend the path prefix to recipe URLs
+  eleventyConfig.addFilter("recipeUrl", (url) => {
+    return `/recipes${url}`;
+  });
+
   return {
     dir: {
       input: "src",

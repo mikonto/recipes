@@ -14,7 +14,7 @@ title: Recipe Collection
 <div class="recipe-grid" id="recipe-list">
     {% for recipe in collections.recipes %}
     <div class="recipe-card" data-title="{{ recipe.data.title | lower }}">
-        <a href="{{ recipe.url }}" class="recipe-card-link">
+        <a href="{{ recipe.url | recipeUrl }}" class="recipe-card-link">
             <h2>{{ recipe.data.title }}</h2>
             {% if recipe.data.description %}
                 <p>{{ recipe.data.description }}</p>

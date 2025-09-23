@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> | My Recipe Collection</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <nav class="nav">
+            <a href="/" class="nav-logo">My Recipes</a>
+            <div class="nav-links">
+                <a href="/">All Recipes</a>
+                <a href="/shopping-list" class="shopping-list-link">
+                    Shopping List
+                    <span class="shopping-count" id="shopping-count"></span>
+                </a>
+                
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        
+<div class="page-header">
+    <h1>Italian</h1>
+    <p>1 recipe</p>
+</div>
+
+<div class="recipe-grid">
+    
+    <div class="recipe-card" data-title="sweet potato gnocchi with zucchini crema and chicken meatballs">
+        <a href="/recipes/sweet-potato-gnocchi-zucchini/" class="recipe-card-link">
+            <h2>Sweet Potato Gnocchi with Zucchini Crema and Chicken Meatballs</h2>
+            
+                <p>Italian-inspired dish with pan-fried gnocchi, creamy zucchini sauce, and tender chicken meatballs</p>
+            
+            <div class="recipe-card-meta">
+                
+                    <span>Prep: 25 min</span>
+                
+                
+                    <span>Cook: 25 min</span>
+                
+                
+                    <span>Servings: 4-6</span>
+                
+            </div>
+        </a>
+        
+        <div class="recipe-card-tags">
+            
+                
+            
+                
+            
+                
+                    <a href="/tags/chicken/" class="tag-small">chicken</a>
+                
+            
+                
+                    <a href="/tags/pasta/" class="tag-small">pasta</a>
+                
+            
+        </div>
+        
+    </div>
+    
+</div>
+
+<nav class="recipe-nav">
+    <a href="/" class="btn btn-back">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+        </svg>
+        Back to all recipes
+    </a>
+</nav>
+    </main>
+
+    <footer class="site-footer">
+        <p>&copy; 2025 My Recipe Collection</p>
+    </footer>
+
+    <script>
+    // Update shopping list count in navigation
+    function updateShoppingCount() {
+        const list = JSON.parse(localStorage.getItem('shoppingList') || '{}');
+        const count = Object.keys(list).length;
+        const countElement = document.getElementById('shopping-count');
+
+        if (countElement) {
+            if (count > 0) {
+                countElement.textContent = count;
+                countElement.style.display = 'inline-flex';
+            } else {
+                countElement.style.display = 'none';
+            }
+        }
+    }
+
+    // Update count on page load
+    document.addEventListener('DOMContentLoaded', updateShoppingCount);
+
+    // Listen for storage changes (updates from other tabs)
+    window.addEventListener('storage', (e) => {
+        if (e.key === 'shoppingList') {
+            updateShoppingCount();
+        }
+    });
+    </script>
+</body>
+</html>

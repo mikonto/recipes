@@ -1,0 +1,61 @@
+---
+pagination:
+  data: collections
+  size: 1
+  alias: tag
+  filter:
+    - all
+    - recipes
+  addAllPagesToCollections: true
+layout: layouts/base.njk
+renderData:
+  title: "Recipes tagged \"{{ tag }}\""
+permalink: /tags/{{ tag | slug }}/
+---
+
+<div class="page-header">
+    <h1>{{ tag | capitalize }}</h1>
+    <p>{{ collections[tag].length }} recipe{% if collections[tag].length != 1 %}s{% endif %}</p>
+</div>
+
+<div class="recipe-grid">
+    {% for recipe in collections[tag] %}
+    <div class="recipe-card" data-title="{{ recipe.data.title | lower }}">
+        <a href="{{ recipe.url }}" class="recipe-card-link">
+            <h2>{{ recipe.data.title }}</h2>
+            {% if recipe.data.description %}
+                <p>{{ recipe.data.description }}</p>
+            {% endif %}
+            <div class="recipe-card-meta">
+                {% if recipe.data.prepTime %}
+                    <span>Prep: {{ recipe.data.prepTime }}</span>
+                {% endif %}
+                {% if recipe.data.cookTime %}
+                    <span>Cook: {{ recipe.data.cookTime }}</span>
+                {% endif %}
+                {% if recipe.data.servings %}
+                    <span>Servings: {{ recipe.data.servings }}</span>
+                {% endif %}
+            </div>
+        </a>
+        {% if recipe.data.tags %}
+        <div class="recipe-card-tags">
+            {% for recipeTag in recipe.data.tags %}
+                {% if recipeTag != "recipes" and recipeTag != tag %}
+                    <a href="/tags/{{ recipeTag | slug }}/" class="tag-small">{{ recipeTag }}</a>
+                {% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+
+<nav class="recipe-nav">
+    <a href="/" class="btn btn-back">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+        </svg>
+        Back to all recipes
+    </a>
+</nav>

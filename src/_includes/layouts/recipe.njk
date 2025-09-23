@@ -1,0 +1,218 @@
+---
+layout: layouts/base.njk
+---
+<article class="recipe">
+    <header class="recipe-header">
+        <h1 class="recipe-title">{{ title }}</h1>
+        {% if author %}
+            <p class="recipe-author">by {{ author }}</p>
+        {% endif %}
+
+        <div class="recipe-meta">
+            {% if prepTime %}
+                <span class="meta-item">
+                    <strong>Prep:</strong> {{ prepTime }}
+                </span>
+            {% endif %}
+            {% if cookTime %}
+                <span class="meta-item">
+                    <strong>Cook:</strong> {{ cookTime }}
+                </span>
+            {% endif %}
+            {% if servings %}
+                <span class="meta-item">
+                    <strong>Servings:</strong> {{ servings }}
+                </span>
+            {% endif %}
+        </div>
+
+        {% if tags %}
+        <div class="recipe-tags">
+            {% for tag in tags %}
+                {% if tag != "recipes" %}
+                    <a href="/tags/{{ tag | slug }}/" class="tag">{{ tag }}</a>
+                {% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
+
+    </header>
+
+    <div class="recipe-content">
+        <section class="ingredients">
+            <h2>Ingredients</h2>
+            {% if ingredientSections %}
+                {% for section in ingredientSections %}
+                    {% if section.name %}
+                        <h3 class="ingredient-section-title">{{ section.name }}</h3>
+                    {% endif %}
+                    <ul class="ingredient-list">
+                        {% set outerLoop = loop.index %}
+                        {% for ingredient in section.items %}
+                            <li class="ingredient-item">
+                                <input type="checkbox" id="ing-{{ outerLoop }}-{{ loop.index }}">
+                                <label for="ing-{{ outerLoop }}-{{ loop.index }}">{{ ingredient }}</label>
+                                <button class="add-to-list" onclick="addToShoppingList('{{ ingredient | replace("'", "\\'") }}')" title="Add to shopping list">+</button>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endfor %}
+            {% elif ingredients %}
+                <ul class="ingredient-list">
+                    {% for ingredient in ingredients %}
+                        <li class="ingredient-item">
+                            <input type="checkbox" id="ing-{{ loop.index }}">
+                            <label for="ing-{{ loop.index }}">{{ ingredient }}</label>
+                            <button class="add-to-list" onclick="addToShoppingList('{{ ingredient | replace("'", "\\'") }}')" title="Add to shopping list">+</button>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                {{ content | safe }}
+            {% endif %}
+        </section>
+
+        {% if instructionSections %}
+        <section class="instructions">
+            <h2>Instructions</h2>
+            {% for section in instructionSections %}
+                {% if section.name %}
+                    <h3 class="instruction-section-title">{{ section.name }}</h3>
+                {% endif %}
+                <ol class="instruction-list" {% if loop.index > 1 %}start="{{ section.startNumber }}"{% endif %}>
+                    {% for instruction in section.steps %}
+                        <li class="instruction-item">
+                            <span class="instruction-text" data-original="{{ instruction }}">{{ instruction }}</span>
+                        </li>
+                    {% endfor %}
+                </ol>
+            {% endfor %}
+        </section>
+        {% elif instructions %}
+        <section class="instructions">
+            <h2>Instructions</h2>
+            <ol class="instruction-list">
+                {% for instruction in instructions %}
+                    <li class="instruction-item">
+                        <span class="instruction-text" data-original="{{ instruction }}">{{ instruction }}</span>
+                    </li>
+                {% endfor %}
+            </ol>
+        </section>
+        {% endif %}
+
+        {% if notes %}
+        <section class="notes">
+            <h2>Notes</h2>
+            <div class="notes-content">{{ notes | markdown | safe }}</div>
+        </section>
+        {% endif %}
+    </div>
+
+    <nav class="recipe-nav">
+        <a href="/" class="btn btn-back">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+            </svg>
+            Back to all recipes
+        </a>
+    </nav>
+</article>
+
+<script>
+// Wake Lock API to keep screen on
+let wakeLock = null;
+
+async function requestWakeLock() {
+    try {
+        if ('wakeLock' in navigator) {
+            wakeLock = await navigator.wakeLock.request('screen');
+            console.log('Screen wake lock active');
+
+            // Re-acquire lock if page becomes visible again
+            document.addEventListener('visibilitychange', async () => {
+                if (wakeLock !== null && document.visibilityState === 'visible') {
+                    wakeLock = await navigator.wakeLock.request('screen');
+                }
+            });
+        } else {
+            console.log('Wake Lock API not supported');
+            // Hide toggle if not supported
+            document.querySelector('.screen-toggle').style.display = 'none';
+        }
+    } catch (err) {
+        console.error(`Wake lock error: ${err.message}`);
+    }
+}
+
+async function releaseWakeLock() {
+    if (wakeLock !== null) {
+        await wakeLock.release();
+        wakeLock = null;
+        console.log('Screen wake lock released');
+    }
+}
+
+// Handle toggle
+const screenToggle = document.getElementById('screenAwake');
+if (screenToggle) {
+    // Check if Wake Lock API is supported
+    if (!('wakeLock' in navigator)) {
+        document.querySelector('.screen-toggle').style.display = 'none';
+    }
+
+    screenToggle.addEventListener('change', async (e) => {
+        if (e.target.checked) {
+            await requestWakeLock();
+        } else {
+            await releaseWakeLock();
+        }
+    });
+}
+
+// Shopping list functionality for individual ingredients
+function addToShoppingList(ingredient) {
+    const recipeName = "{{ title }}";
+
+    // Get existing list
+    const list = JSON.parse(localStorage.getItem('shoppingList') || '{}');
+
+    // Create unique key
+    const key = `${recipeName}-${ingredient}`;
+
+    // Get the button that was clicked
+    const btn = event.target;
+
+    if (list[key]) {
+        // Already in list - show feedback
+        btn.textContent = '✓';
+        btn.classList.add('added');
+        setTimeout(() => {
+            btn.textContent = '+';
+            btn.classList.remove('added');
+        }, 1500);
+    } else {
+        // Add to list
+        list[key] = {
+            recipe: recipeName,
+            ingredient: ingredient,
+            checked: false
+        };
+
+        // Save updated list
+        localStorage.setItem('shoppingList', JSON.stringify(list));
+
+        // Show success feedback
+        btn.textContent = '✓';
+        btn.classList.add('added');
+
+        setTimeout(() => {
+            btn.textContent = '+';
+            btn.classList.remove('added');
+        }, 1500);
+
+        // Update the count in navigation
+        updateShoppingCount();
+    }
+}
+</script>

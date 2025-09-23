@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | My Recipe Collection</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <nav class="nav">
+            <a href="/" class="nav-logo">My Recipes</a>
+            <div class="nav-links">
+                <a href="/">All Recipes</a>
+                <a href="/about">About</a>
+                
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        
+<div class="page-header">
+    <h1>About This Recipe Collection</h1>
+</div>
+
+<div class="content">
+    <p>Welcome to my personal recipe collection! This site is designed to be a simple, mobile-friendly reference while cooking.</p>
+
+    <h2>Features</h2>
+    <ul>
+        <li>Mobile-first design for easy reading while cooking</li>
+        <li>Ingredient checkboxes to track what you've added</li>
+        <li>Clear step-by-step instructions</li>
+        <li>Search functionality to quickly find recipes</li>
+    </ul>
+
+    <h2>Adding New Recipes</h2>
+    <p>To add a new recipe, create a markdown file in the <code>src/recipes/</code> directory with the following frontmatter:</p>
+
+    <pre><code>---
+layout: layouts/recipe.njk
+title: Recipe Name
+author: Your Name
+description: Brief description
+prepTime: 15 min
+cookTime: 30 min
+servings: 4
+tags:
+  - recipes
+  - category1
+  - category2
+ingredients:
+  - Ingredient 1
+  - Ingredient 2
+instructions:
+  - Step 1
+  - Step 2
+notes: Optional notes
+---</code></pre>
+
+    <nav class="recipe-nav">
+        <a href="/" class="btn btn-back">← Back to recipes</a>
+    </nav>
+</div>
+
+<style>
+.content {
+    max-width: 700px;
+    line-height: 1.8;
+}
+
+.content h2 {
+    color: var(--color-primary);
+    margin: 2rem 0 1rem;
+}
+
+.content ul {
+    margin-left: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.content pre {
+    background: var(--color-light-gray);
+    padding: 1rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 1rem 0;
+}
+
+.content code {
+    font-family: 'Courier New', monospace;
+    font-size: 0.9em;
+}
+</style>
+    </main>
+
+    <footer class="site-footer">
+        <p>&copy; 2025 My Recipe Collection</p>
+    </footer>
+</body>
+</html>

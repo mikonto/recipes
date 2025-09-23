@@ -1,0 +1,61 @@
+---
+layout: layouts/base.njk
+title: Recipe Collection
+---
+
+<div class="page-header">
+    <h1>My Recipe Collection</h1>
+</div>
+
+<div class="search-container">
+    <input type="text" class="search-input" id="search" placeholder="Search recipes...">
+</div>
+
+<div class="recipe-grid" id="recipe-list">
+    {% for recipe in collections.recipes %}
+    <div class="recipe-card" data-title="{{ recipe.data.title | lower }}">
+        <a href="{{ recipe.url }}" class="recipe-card-link">
+            <h2>{{ recipe.data.title }}</h2>
+            {% if recipe.data.description %}
+                <p>{{ recipe.data.description }}</p>
+            {% endif %}
+            <div class="recipe-card-meta">
+                {% if recipe.data.prepTime %}
+                    <span>Prep: {{ recipe.data.prepTime }}</span>
+                {% endif %}
+                {% if recipe.data.cookTime %}
+                    <span>Cook: {{ recipe.data.cookTime }}</span>
+                {% endif %}
+                {% if recipe.data.servings %}
+                    <span>Servings: {{ recipe.data.servings }}</span>
+                {% endif %}
+            </div>
+        </a>
+        {% if recipe.data.tags %}
+        <div class="recipe-card-tags">
+            {% for tag in recipe.data.tags %}
+                {% if tag != "recipes" %}
+                    <a href="/tags/{{ tag | slug }}/" class="tag-small">{{ tag }}</a>
+                {% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+
+<script>
+document.getElementById('search').addEventListener('input', function(e) {
+    const searchTerm = e.target.value.toLowerCase();
+    const recipes = document.querySelectorAll('.recipe-card');
+
+    recipes.forEach(recipe => {
+        const title = recipe.getAttribute('data-title');
+        if (title.includes(searchTerm)) {
+            recipe.style.display = 'block';
+        } else {
+            recipe.style.display = 'none';
+        }
+    });
+});
+</script>

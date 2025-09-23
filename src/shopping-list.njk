@@ -1,0 +1,268 @@
+---
+layout: layouts/base.njk
+title: Shopping List
+---
+
+<div class="page-header">
+    <h1>Shopping List</h1>
+</div>
+
+<div class="add-manual">
+    <input type="text" id="manual-input" class="manual-input" placeholder="Add item manually..." onkeypress="handleKeyPress(event)">
+    <button class="btn-add-manual" onclick="addManualItem()">Add</button>
+</div>
+
+<div id="shopping-list-container">
+    <div id="shopping-list" class="shopping-list">
+        <!-- Items will be added here dynamically -->
+    </div>
+    <p id="empty-message" class="empty-message">Your shopping list is empty. Add ingredients from recipes!</p>
+</div>
+
+<script>
+// Load and display shopping list
+function loadShoppingList() {
+    const list = JSON.parse(localStorage.getItem('shoppingList') || '{}');
+    const container = document.getElementById('shopping-list');
+    const emptyMessage = document.getElementById('empty-message');
+
+    container.innerHTML = '';
+
+    if (Object.keys(list).length === 0) {
+        emptyMessage.style.display = 'block';
+        return;
+    }
+
+    emptyMessage.style.display = 'none';
+
+    // Group by recipe
+    const recipes = {};
+    for (const [key, item] of Object.entries(list)) {
+        if (!recipes[item.recipe]) {
+            recipes[item.recipe] = [];
+        }
+        recipes[item.recipe].push({key, ...item});
+    }
+
+    // Display grouped items
+    for (const [recipeName, items] of Object.entries(recipes)) {
+        const section = document.createElement('div');
+        section.className = 'shopping-section';
+
+        const header = document.createElement('h3');
+        header.className = 'shopping-recipe-title';
+        header.textContent = recipeName;
+        section.appendChild(header);
+
+        const itemList = document.createElement('ul');
+        itemList.className = 'shopping-items';
+
+        items.forEach(item => {
+            const li = document.createElement('li');
+            li.className = 'shopping-item';
+
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.id = item.key;
+            checkbox.checked = item.checked || false;
+            checkbox.onchange = () => toggleItem(item.key);
+
+            const label = document.createElement('label');
+            label.htmlFor = item.key;
+            label.textContent = item.ingredient;
+            if (item.checked) {
+                label.classList.add('checked');
+            }
+
+            const removeBtn = document.createElement('button');
+            removeBtn.className = 'remove-item';
+            removeBtn.textContent = '×';
+            removeBtn.onclick = () => removeItem(item.key);
+
+            li.appendChild(checkbox);
+            li.appendChild(label);
+            li.appendChild(removeBtn);
+            itemList.appendChild(li);
+        });
+
+        section.appendChild(itemList);
+        container.appendChild(section);
+    }
+}
+
+// Toggle item checked state
+function toggleItem(key) {
+    const list = JSON.parse(localStorage.getItem('shoppingList') || '{}');
+    if (list[key]) {
+        list[key].checked = !list[key].checked;
+        localStorage.setItem('shoppingList', JSON.stringify(list));
+        loadShoppingList();
+    }
+}
+
+// Remove single item
+function removeItem(key) {
+    const list = JSON.parse(localStorage.getItem('shoppingList') || '{}');
+    delete list[key];
+    localStorage.setItem('shoppingList', JSON.stringify(list));
+    loadShoppingList();
+
+    // Update the count in navigation
+    if (typeof updateShoppingCount !== 'undefined') {
+        updateShoppingCount();
+    }
+}
+
+// Add manual item
+function addManualItem() {
+    const input = document.getElementById('manual-input');
+    const item = input.value.trim();
+
+    if (!item) {
+        return;
+    }
+
+    const list = JSON.parse(localStorage.getItem('shoppingList') || '{}');
+    const key = `Manual-${item}-${Date.now()}`;
+
+    list[key] = {
+        recipe: 'Manual',
+        ingredient: item,
+        checked: false
+    };
+
+    localStorage.setItem('shoppingList', JSON.stringify(list));
+
+    // Clear input
+    input.value = '';
+
+    // Reload list
+    loadShoppingList();
+
+    // Update the count in navigation
+    if (typeof updateShoppingCount !== 'undefined') {
+        updateShoppingCount();
+    }
+}
+
+// Handle Enter key in input
+function handleKeyPress(event) {
+    if (event.key === 'Enter') {
+        addManualItem();
+    }
+}
+
+// Load on page load
+document.addEventListener('DOMContentLoaded', loadShoppingList);
+</script>
+
+<style>
+.add-manual {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-xl);
+    max-width: 500px;
+}
+
+.manual-input {
+    flex: 1;
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: 1rem;
+    border: 2px solid var(--color-border);
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.manual-input:focus {
+    border-color: var(--color-secondary);
+}
+
+.btn-add-manual {
+    padding: var(--spacing-sm) var(--spacing-lg);
+    background: var(--color-secondary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.btn-add-manual:hover {
+    background: #229954;
+    transform: translateY(-1px);
+}
+
+.shopping-list {
+    margin-bottom: var(--spacing-xl);
+}
+
+.empty-message {
+    text-align: center;
+    color: #999;
+    padding: var(--spacing-xl);
+    background: var(--color-light-gray);
+    border-radius: 8px;
+}
+
+.shopping-section {
+    background: var(--color-light-gray);
+    padding: var(--spacing-lg);
+    border-radius: 8px;
+    margin-bottom: var(--spacing-lg);
+}
+
+.shopping-recipe-title {
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-md);
+    font-size: 1.1rem;
+}
+
+.shopping-items {
+    list-style: none;
+}
+
+.shopping-item {
+    display: flex;
+    align-items: center;
+    padding: var(--spacing-sm) 0;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.shopping-item:last-child {
+    border-bottom: none;
+}
+
+.shopping-item input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-right: var(--spacing-sm);
+    cursor: pointer;
+}
+
+.shopping-item label {
+    flex: 1;
+    cursor: pointer;
+}
+
+.shopping-item label.checked {
+    text-decoration: line-through;
+    opacity: 0.6;
+}
+
+.remove-item {
+    background: none;
+    border: none;
+    color: var(--color-accent);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0 var(--spacing-sm);
+    transition: transform 0.2s;
+}
+
+.remove-item:hover {
+    transform: scale(1.2);
+}
+</style>

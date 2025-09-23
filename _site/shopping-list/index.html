@@ -10,6 +10,7 @@
     <header class="site-header">
         <nav class="nav">
             <a href="/recipes/" class="nav-logo">My Recipes</a>
+            
             <button class="menu-toggle" id="menu-toggle" aria-label="Menu">
                 <span></span>
                 <span></span>
@@ -21,7 +22,6 @@
                     Shopping List
                     <span class="shopping-count" id="shopping-count"></span>
                 </a>
-                
             </div>
         </nav>
     </header>
@@ -60,59 +60,44 @@ function loadShoppingList() {
 
     emptyMessage.style.display = 'none';
 
-    // Group by recipe
-    const recipes = {};
+    // Create single list container
+    const section = document.createElement('div');
+    section.className = 'shopping-section';
+
+    const itemList = document.createElement('ul');
+    itemList.className = 'shopping-items';
+
+    // Display all items in one list
     for (const [key, item] of Object.entries(list)) {
-        if (!recipes[item.recipe]) {
-            recipes[item.recipe] = [];
+        const li = document.createElement('li');
+        li.className = 'shopping-item';
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.id = key;
+        checkbox.checked = item.checked || false;
+        checkbox.onchange = () => toggleItem(key);
+
+        const label = document.createElement('label');
+        label.htmlFor = key;
+        label.textContent = item.ingredient;
+        if (item.checked) {
+            label.classList.add('checked');
         }
-        recipes[item.recipe].push({key, ...item});
+
+        const removeBtn = document.createElement('button');
+        removeBtn.className = 'remove-item';
+        removeBtn.textContent = '×';
+        removeBtn.onclick = () => removeItem(key);
+
+        li.appendChild(checkbox);
+        li.appendChild(label);
+        li.appendChild(removeBtn);
+        itemList.appendChild(li);
     }
 
-    // Display grouped items
-    for (const [recipeName, items] of Object.entries(recipes)) {
-        const section = document.createElement('div');
-        section.className = 'shopping-section';
-
-        const header = document.createElement('h3');
-        header.className = 'shopping-recipe-title';
-        header.textContent = recipeName;
-        section.appendChild(header);
-
-        const itemList = document.createElement('ul');
-        itemList.className = 'shopping-items';
-
-        items.forEach(item => {
-            const li = document.createElement('li');
-            li.className = 'shopping-item';
-
-            const checkbox = document.createElement('input');
-            checkbox.type = 'checkbox';
-            checkbox.id = item.key;
-            checkbox.checked = item.checked || false;
-            checkbox.onchange = () => toggleItem(item.key);
-
-            const label = document.createElement('label');
-            label.htmlFor = item.key;
-            label.textContent = item.ingredient;
-            if (item.checked) {
-                label.classList.add('checked');
-            }
-
-            const removeBtn = document.createElement('button');
-            removeBtn.className = 'remove-item';
-            removeBtn.textContent = '×';
-            removeBtn.onclick = () => removeItem(item.key);
-
-            li.appendChild(checkbox);
-            li.appendChild(label);
-            li.appendChild(removeBtn);
-            itemList.appendChild(li);
-        });
-
-        section.appendChild(itemList);
-        container.appendChild(section);
-    }
+    section.appendChild(itemList);
+    container.appendChild(section);
 }
 
 // Toggle item checked state

@@ -35,7 +35,7 @@ title: Recipe Collection
         <div class="recipe-card-tags">
             {% for tag in recipe.data.tags %}
                 {% if tag != "recipes" %}
-                    <a href="/tags/{{ tag | slug }}/" class="tag-small">{{ tag }}</a>
+                    <a href="{{ ('/tags/' + (tag | slug) + '/') | url }}" class="tag-small">{{ tag }}</a>
                 {% endif %}
             {% endfor %}
         </div>

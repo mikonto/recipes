@@ -493,26 +493,33 @@ body {
 
 /* Screen Toggle Icon Button */
 .screen-toggle-btn {
-    background: none;
-    border: none;
-    color: white;
+    background: rgba(255,255,255,0.1);
+    border: 2px solid transparent;
+    color: rgba(255,255,255,0.5);
     cursor: pointer;
-    padding: 0.5rem;
+    padding: 0.4rem;
     margin-left: auto;
     margin-right: var(--spacing-sm);
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 4px;
-    transition: background 0.2s;
+    border-radius: 8px;
+    transition: all 0.3s;
 }
 
 .screen-toggle-btn:hover {
-    background: rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.2);
 }
 
 .screen-toggle-btn.active {
-    color: var(--color-secondary);
+    background: rgba(255,215,0,0.2);
+    border-color: #FFD700;
+    color: #FFD700;
+    box-shadow: 0 0 10px rgba(255,215,0,0.3);
+}
+
+.screen-toggle-btn.active:hover {
+    background: rgba(255,215,0,0.3);
 }
 
 .screen-icon {
@@ -530,7 +537,6 @@ body {
 
 .screen-toggle-btn.active .screen-on {
     display: block;
-    color: #FFD700; /* Golden yellow for active state */
 }
 
 /* Mobile Responsive */

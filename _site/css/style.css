@@ -171,8 +171,8 @@ body {
     display: flex;
     flex-wrap: wrap;
     gap: var(--spacing-xs);
-    margin-top: var(--spacing-sm);
-    padding-top: var(--spacing-sm);
+    margin-top: var(--spacing-md);
+    padding-top: var(--spacing-md);
     border-top: 1px solid var(--color-border);
 }
 
@@ -589,9 +589,9 @@ body {
 
     /* Fix tag border spacing */
     .recipe-card-tags {
-        padding-top: var(--spacing-xs);
+        padding-top: var(--spacing-md);
         border-top: 1px solid var(--color-border);
-        margin-top: var(--spacing-sm);
+        margin-top: var(--spacing-md);
     }
 
     /* Page padding */

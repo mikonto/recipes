@@ -138,7 +138,8 @@ async function requestWakeLock() {
         } else {
             console.log('Wake Lock API not supported');
             // Hide toggle if not supported
-            document.querySelector('.screen-toggle').style.display = 'none';
+            const btn = document.getElementById('screenToggle');
+            if (btn) btn.style.display = 'none';
         }
     } catch (err) {
         console.error(`Wake lock error: ${err.message}`);
@@ -153,19 +154,23 @@ async function releaseWakeLock() {
     }
 }
 
-// Handle toggle
-const screenToggle = document.getElementById('screenAwake');
+// Handle toggle button
+const screenToggle = document.getElementById('screenToggle');
 if (screenToggle) {
     // Check if Wake Lock API is supported
     if (!('wakeLock' in navigator)) {
-        document.querySelector('.screen-toggle').style.display = 'none';
+        screenToggle.style.display = 'none';
     }
 
-    screenToggle.addEventListener('change', async (e) => {
-        if (e.target.checked) {
+    screenToggle.addEventListener('click', async () => {
+        if (!screenToggle.classList.contains('active')) {
             await requestWakeLock();
+            screenToggle.classList.add('active');
+            screenToggle.setAttribute('title', 'Turn off keep screen on');
         } else {
             await releaseWakeLock();
+            screenToggle.classList.remove('active');
+            screenToggle.setAttribute('title', 'Keep screen on');
         }
     });
 }

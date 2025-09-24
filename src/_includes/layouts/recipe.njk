@@ -154,26 +154,39 @@ async function releaseWakeLock() {
     }
 }
 
-// Handle toggle button
-const screenToggle = document.getElementById('screenToggle');
-if (screenToggle) {
-    // Check if Wake Lock API is supported
-    if (!('wakeLock' in navigator)) {
-        screenToggle.style.display = 'none';
-    }
-
-    screenToggle.addEventListener('click', async () => {
-        if (!screenToggle.classList.contains('active')) {
-            await requestWakeLock();
-            screenToggle.classList.add('active');
-            screenToggle.setAttribute('title', 'Turn off keep screen on');
-        } else {
-            await releaseWakeLock();
-            screenToggle.classList.remove('active');
-            screenToggle.setAttribute('title', 'Keep screen on');
+// Handle toggle buttons (both mobile and desktop)
+function setupScreenToggle(buttonId) {
+    const button = document.getElementById(buttonId);
+    if (button) {
+        // Check if Wake Lock API is supported
+        if (!('wakeLock' in navigator)) {
+            button.style.display = 'none';
+            return;
         }
-    });
+
+        button.addEventListener('click', async () => {
+            const allButtons = document.querySelectorAll('.screen-toggle-btn');
+
+            if (!button.classList.contains('active')) {
+                await requestWakeLock();
+                allButtons.forEach(btn => {
+                    btn.classList.add('active');
+                    btn.setAttribute('title', 'Turn off keep screen on');
+                });
+            } else {
+                await releaseWakeLock();
+                allButtons.forEach(btn => {
+                    btn.classList.remove('active');
+                    btn.setAttribute('title', 'Keep screen on');
+                });
+            }
+        });
+    }
 }
+
+// Setup both buttons
+setupScreenToggle('screenToggle');
+setupScreenToggle('screenToggleDesktop');
 
 // Shopping list functionality for individual ingredients
 function addToShoppingList(ingredient) {

@@ -13,13 +13,13 @@ tags:
 ingredientSections:
   - name: "For the Dough"
     items:
-      - 5ml active dry yeast
-      - 5ml sugar
-      - 1.25ml salt
+      - 1 tsp active dry yeast
+      - 1 tsp sugar
+      - 1/4 tsp salt
       - 60ml lukewarm water
       - 190g plain flour
       - 60ml yogurt
-      - 15ml vegetable oil
+      - 1 tbsp vegetable oil
       - Extra oil for greasing
   - name: "For Serving"
     items:
@@ -28,8 +28,8 @@ instructionSections:
   - name: "Prepare the Dough"
     startNumber: 1
     steps:
-      - "Activate yeast: Add yeast (5ml), sugar (5ml) and salt (1.25ml) in a bowl. Add lukewarm water (60ml) and mix all ingredients together. Rest aside for 5 minutes until foamy."
-      - "Make dough: In a separate bowl, add flour (190g), yogurt (60ml) and oil (15ml). Add the yeast mixture and mix all ingredients together."
+      - "Activate yeast: Add yeast (1 tsp), sugar (1 tsp) and salt (1/4 tsp) in a bowl. Add lukewarm water (60ml) and mix all ingredients together. Rest aside for 5 minutes until foamy."
+      - "Make dough: In a separate bowl, add flour (190g), yogurt (60ml) and oil (1 tbsp). Add the yeast mixture and mix all ingredients together."
       - "Knead into a smooth dough for about 5-7 minutes. Grease the dough top with oil and rest for 1 hour under a damp towel."
   - name: "Shape and Cook"
     startNumber: 4

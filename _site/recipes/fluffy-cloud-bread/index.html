@@ -9,32 +9,48 @@
 <body>
     <header class="site-header">
         <nav class="nav">
-            
-            <button class="screen-toggle-btn" id="screenToggle" aria-label="Keep screen on" title="Keep screen on">
-                <svg class="screen-icon screen-off" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                    <!-- Eye closed (screen sleep) -->
-                    <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5z" opacity="0.3"/>
-                    <path d="M2 2L22 22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                </svg>
-                <svg class="screen-icon screen-on" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                    <!-- Eye open (screen awake) -->
-                    <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5z"/>
-                    <circle cx="12" cy="12" r="3" fill="white"/>
-                </svg>
-            </button>
-            
-            <a href="/recipes/" class="nav-logo">My Recipes</a>
-            <button class="menu-toggle" id="menu-toggle" aria-label="Menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
+            <a href="/recipes/" class="nav-logo">Recipes</a>
+            <div class="nav-right">
+                
+                <button class="screen-toggle-btn" id="screenToggle" aria-label="Keep screen on" title="Keep screen on">
+                    <svg class="screen-icon screen-off" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <!-- Eye closed (screen sleep) -->
+                        <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5z" opacity="0.3"/>
+                        <path d="M2 2L22 22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <svg class="screen-icon screen-on" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <!-- Eye open (screen awake) -->
+                        <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5z"/>
+                        <circle cx="12" cy="12" r="3" fill="white"/>
+                    </svg>
+                </button>
+                
+                <button class="menu-toggle" id="menu-toggle" aria-label="Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
             <div class="nav-links" id="nav-links">
                 <a href="/recipes/">All Recipes</a>
                 <a href="/recipes/shopping-list" class="shopping-list-link">
                     Shopping List
                     <span class="shopping-count" id="shopping-count"></span>
                 </a>
+                
+                <button class="screen-toggle-btn desktop-only" id="screenToggleDesktop" aria-label="Keep screen on" title="Keep screen on">
+                    <svg class="screen-icon screen-off" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <!-- Eye closed (screen sleep) -->
+                        <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5z" opacity="0.3"/>
+                        <path d="M2 2L22 22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <svg class="screen-icon screen-on" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <!-- Eye open (screen awake) -->
+                        <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5z"/>
+                        <circle cx="12" cy="12" r="3" fill="white"/>
+                    </svg>
+                </button>
+                
             </div>
         </nav>
     </header>
@@ -260,26 +276,39 @@ async function releaseWakeLock() {
     }
 }
 
-// Handle toggle button
-const screenToggle = document.getElementById('screenToggle');
-if (screenToggle) {
-    // Check if Wake Lock API is supported
-    if (!('wakeLock' in navigator)) {
-        screenToggle.style.display = 'none';
-    }
-
-    screenToggle.addEventListener('click', async () => {
-        if (!screenToggle.classList.contains('active')) {
-            await requestWakeLock();
-            screenToggle.classList.add('active');
-            screenToggle.setAttribute('title', 'Turn off keep screen on');
-        } else {
-            await releaseWakeLock();
-            screenToggle.classList.remove('active');
-            screenToggle.setAttribute('title', 'Keep screen on');
+// Handle toggle buttons (both mobile and desktop)
+function setupScreenToggle(buttonId) {
+    const button = document.getElementById(buttonId);
+    if (button) {
+        // Check if Wake Lock API is supported
+        if (!('wakeLock' in navigator)) {
+            button.style.display = 'none';
+            return;
         }
-    });
+
+        button.addEventListener('click', async () => {
+            const allButtons = document.querySelectorAll('.screen-toggle-btn');
+
+            if (!button.classList.contains('active')) {
+                await requestWakeLock();
+                allButtons.forEach(btn => {
+                    btn.classList.add('active');
+                    btn.setAttribute('title', 'Turn off keep screen on');
+                });
+            } else {
+                await releaseWakeLock();
+                allButtons.forEach(btn => {
+                    btn.classList.remove('active');
+                    btn.setAttribute('title', 'Keep screen on');
+                });
+            }
+        });
+    }
 }
+
+// Setup both buttons
+setupScreenToggle('screenToggle');
+setupScreenToggle('screenToggleDesktop');
 
 // Shopping list functionality for individual ingredients
 function addToShoppingList(ingredient) {

@@ -54,3 +54,5 @@ instructionSections:
       - "Remove from heat and let stand covered for 5 minutes, then fluff with a fork and serve with the rendang."
 notes: This isn't a curry, so the sauce should be reduced as much as possible when cooking. If this is too spicy, add some palm sugar or a tablespoon of plain yogurt. Add any vegetables you like.
 ---
+
+[Original recipe](https://hungryhealthyhappy.com/burmese-chicken-rendang/)

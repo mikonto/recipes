@@ -11,28 +11,31 @@ tags:
   - indonesian
   - asian
   - spicy
-ingredients:
-  - 300 g (10.5 oz) chicken breast, cut into chunks
-  - 0.5 tablespoon olive oil
-  - 1 onion, chopped
-  - 400 ml (1.66 cups) light coconut milk
-  - 1 lime (juice only)
-  - 1 pinch sea salt
-  - 1 tablespoon fresh ginger, very finely chopped
-  - "**For the Paste:**"
-  - 2 garlic cloves
-  - 1 stalk lemongrass, bruised and chopped
-  - 1 tablespoon fresh ginger, chopped
-  - 1 red chilli, chopped
-  - 1 teaspoon ground coriander
-  - 1 teaspoon ground turmeric
+ingredientSections:
+  - name: "For the Paste"
+    items:
+      - 2 garlic cloves
+      - 1 stalk lemongrass, bruised and chopped
+      - 1 tablespoon fresh ginger, chopped
+      - 1 red chilli, chopped
+      - 1 teaspoon ground coriander
+      - 1 teaspoon ground turmeric
+  - name: "For the Rendang"
+    items:
+      - 300g chicken breast, cut into chunks
+      - 0.5 tablespoon olive oil
+      - 1 onion, chopped
+      - 400ml light coconut milk
+      - 1 lime (juice only)
+      - 1 pinch sea salt
+      - 1 tablespoon fresh ginger, very finely chopped
 instructions:
-  - "Make the paste by pounding together the garlic, lemongrass, ginger, red chilli, ground coriander and ground turmeric in a pestle and mortar. Set aside."
-  - "Heat the olive oil in a pan and cook the chicken until browned all over, about 5-7 minutes."
-  - "Add the onion and cook until golden brown, about 5 minutes."
+  - "Make the paste by pounding together the garlic cloves (2), lemongrass (1 stalk), ginger (1 tablespoon), red chilli (1), ground coriander (1 teaspoon) and ground turmeric (1 teaspoon) in a pestle and mortar. Set aside."
+  - "Heat olive oil (0.5 tablespoon) in a pan and cook chicken (300g) until browned all over, about 5-7 minutes."
+  - "Add onion (1, chopped) and cook until golden brown, about 5 minutes."
   - "Add the paste, mix well and cook for a further minute."
-  - "Add the lime juice, sea salt and finely chopped ginger and cook for a further two minutes."
-  - "Add the coconut milk and bring to the boil."
+  - "Add lime juice (1 lime), sea salt (1 pinch) and finely chopped ginger (1 tablespoon) and cook for a further two minutes."
+  - "Add coconut milk (400ml) and bring to the boil."
   - "Reduce the heat and simmer, allowing the liquids to reduce considerably, about 30 minutes."
   - "Serve with rice."
 notes: This isn't a curry, so the sauce should be reduced as much as possible when cooking. If this is too spicy, add some palm sugar or a tablespoon of plain yogurt. Add any vegetables you like.

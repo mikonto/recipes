@@ -29,3 +29,5 @@ instructions:
   - "Add seasonings: Add oyster sauce (2 tablespoons), salt (1/2 teaspoon), and granulated sugar (1/4 teaspoon). Taste and adjust the seasonings. Turn off the heat and serve."
 notes: For a gluten-free version, use oyster sauce labeled gluten-free.
 ---
+
+[Original recipe](https://www.youtube.com/watch?v=fDLEDubJ74g&t=161s)

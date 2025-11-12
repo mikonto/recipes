@@ -31,14 +31,30 @@ prepTime: 15 min
 cookTime: 30 min
 servings: 4
 ingredients:
-  - 1 cup flour
+  - 200g flour
   - 2 eggs
   - etc.
 instructions:
-  - "Step 1: Do this"
-  - "Step 2: Then do this"
+  - "Step 1: Do this with flour (200g)"
+  - "Step 2: Then add eggs (2)"
   - "Step 3: Finally do this"
 notes: Any special notes or tips about the recipe
+```
+
+### Using Ingredient Sections
+
+For recipes with multiple components (e.g., a paste and main dish), use `ingredientSections` instead of `ingredients`:
+
+```yaml
+ingredientSections:
+  - name: "For the Paste"
+    items:
+      - 2 garlic cloves
+      - 1 tablespoon ginger
+  - name: "For the Main Dish"
+    items:
+      - 300g chicken
+      - 400ml coconut milk
 ```
 
 ## Example Recipe
@@ -63,8 +79,8 @@ ingredients:
   - 1 lime
   - Salt and pepper to taste
 instructions:
-  - "Dice the avocados and place in a bowl"
-  - "Add minced garlic and lime juice"
+  - "Dice the avocados (2) and place in a bowl"
+  - "Add minced garlic (1 clove) and lime juice (1 lime)"
   - "Mix with cooked pasta and serve"
 notes: Make sure avocados are perfectly ripe
 ---
@@ -72,6 +88,9 @@ notes: Make sure avocados are perfectly ripe
 
 ## Tips
 
+- **Use metric units only** - Do not include US units (cups, oz, etc.). Use grams, ml, tablespoons, teaspoons
+- **Add amounts in instructions** - Include ingredient amounts in parentheses within instruction steps for easier reading (e.g., "Add garlic (2 cloves) and ginger (1 tablespoon)")
+- **Use ingredientSections for multi-component recipes** - When a recipe has multiple parts (e.g., marinade, paste, main dish), use `ingredientSections` with proper subtitles instead of the simple `ingredients` list
 - Keep instructions clear and concise
 - List ingredients in the order they're used
 - Include specific measurements where important

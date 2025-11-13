@@ -23,12 +23,14 @@ ingredientSections:
   - name: "For the Rendang"
     items:
       - 300g chicken breast, cut into chunks
-      - 0.5 tablespoon olive oil
+      - 0.5 tablespoon rapeseed oil
       - 1 onion, chopped
       - 400ml light coconut milk
       - 1 lime (juice only)
       - 1 pinch sea salt
       - 1 tablespoon fresh ginger, very finely chopped
+      - 230g can pineapple chunks (drained)
+      - Rapeseed oil for frying pineapple
   - name: "For the Rice"
     items:
       - 200g jasmine rice
@@ -39,14 +41,20 @@ instructionSections:
     startNumber: 1
     steps:
       - "Make the paste by pounding together the garlic cloves (2), lemongrass (1 stalk), ginger (1 tablespoon), red chilli (1), ground coriander (1 teaspoon) and ground turmeric (1 teaspoon) in a pestle and mortar. Set aside."
-      - "Heat olive oil (0.5 tablespoon) in a pan and cook chicken (300g) until browned all over, about 5-7 minutes."
+      - "Heat rapeseed oil (0.5 tablespoon) in a pan and cook chicken (300g) until browned all over, about 5-7 minutes."
       - "Add onion (1, chopped) and cook until golden brown, about 5 minutes."
       - "Add the paste, mix well and cook for a further minute."
       - "Add lime juice (1 lime), sea salt (1 pinch) and finely chopped ginger (1 tablespoon) and cook for a further two minutes."
       - "Add coconut milk (400ml) and bring to the boil."
-      - "Reduce the heat and simmer, allowing the liquids to reduce considerably, about 30 minutes."
-  - name: "Prepare the Jasmine Rice"
+      - "Reduce the heat and simmer, allowing the liquids to reduce considerably, about 30 minutes. Add the fried pineapple chunks about 15 minutes before the end of cooking."
+  - name: "Prepare the Pineapple"
     startNumber: 8
+    steps:
+      - "Pat the pineapple chunks (230g) very dry with paper towels."
+      - "Heat a little rapeseed oil in a pan over medium-high heat and add the pineapple chunks."
+      - "Fry until the edges caramelize and most moisture is gone. This gives you sweetness without watering down the dish."
+  - name: "Prepare the Jasmine Rice"
+    startNumber: 11
     steps:
       - "Rinse jasmine rice (200g) under cold water until water runs clear."
       - "Add rice to a pot with water (400ml) and a pinch of salt."
